@@ -1,0 +1,30 @@
+* {
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+}
+
+header {
+    background-color: rgb(153, 95, 208); 
+    padding: 0.5rem;
+}
+
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+}
+
+h1 {
+    color: rgba(255, 255, 255, 0.785);
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    margin: 5rem;
+}
+
+.options {
+    margin: 1rem;
+}

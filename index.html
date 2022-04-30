@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Code Quiz</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./assets/style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="navBar">
+            <div class="score-card">
+                <h3> <a href="#highscore">View Highscores</a></h3>
+            </div>
+            <h1>codeQuiz</h1>
+            <div class="timer-card">
+                <!-- <h3>Time: </h3> -->
+                <div class="timer"><span>Time: </span>60</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <button class="start-button">Start</button>
+            <div class="question-card">
+                <h2 class="question"></h2>
+                <div class="options">
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="card results">
+                <div class="highscore-container" id="highscore"></div>
+                <button class="reset-button">Reset Score</button>
+            </div>
+
+        </section>
+    </main>
+    <script src="assets/script.js"></script>
+</body>
+
+</html>
