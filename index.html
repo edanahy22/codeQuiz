@@ -12,11 +12,10 @@
     <header>
         <div class="navBar">
             <div class="score-card">
-                <h3> <a href="#highscore">View Highscores</a></h3>
+                <h3> <a href="#" class="view-highscores">View Highscores</a></h3>
             </div>
             <h1>codeQuiz</h1>
             <div class="timer-card">
-                <!-- <h3>Time: </h3> -->
                 <div class="timer"><span>Time: </span>60</div>
             </div>
         </div>
@@ -24,21 +23,21 @@
 
     <main>
         <section>
-            <button class="start-button">Start</button>
-            <div class="question-card">
+            <div id="questionCard" class="question-card">
                 <h2 class="question"></h2>
-                <div class="options">
-                </div>
+                <div class="options"></div>
+                <div class="result"></div>
             </div>
+            <form id="endQuiz" class="input-results">
+                <label id="score" for="score">Score: </label>
+                <input id="msg" type="text" name="initials"></input>
+                <button id="save">Save</button>
+            </form>
+            <ul id="saved-scores" class="score-list">
+            </ul>
+            <button class="start-button">Start</button>
         </section>
 
-        <section>
-            <div class="card results">
-                <div class="highscore-container" id="highscore"></div>
-                <button class="reset-button">Reset Score</button>
-            </div>
-
-        </section>
     </main>
     <script src="assets/script.js"></script>
 </body>

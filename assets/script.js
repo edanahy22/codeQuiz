@@ -3,10 +3,12 @@ var timerElement = document.querySelector(".timer");
 var startButton = document.querySelector(".start-button");
 var questionDisplay = document.querySelector(".question");
 var multOptions = document.querySelector(".options");
-// var answerButton = document.getElementById('answers');
+var viewHighscoresEl = document.querySelector(".view-highscores");
+var saveButton = document.querySelector("#save");
 
-
+var scoreValue = 0
 var currentQuestion = 0;
+var userInitials = "";
 var quizQuestions = [
     {
      question: "What is the purpose of an array?",
@@ -66,17 +68,18 @@ var timerCount;
 function startTimer() {
     // Sets timer
     timer = setInterval(function() {
-      timerCount--;
-      timerElement.textContent = timerCount;
-      // Tests if time has run out
-      if (timerCount === 0) {
-        // Clears interval
-        clearInterval(timer);
-        // Allows start button to be pressed again to start new round
-        startButton.disabled = false;
-        // loseGame();
-      }
+        if (timerCount <= 0) {
+            timerElement.textContent = 0;
+            clearInterval(timer);
+            endQuiz() 
+            }
+            else{
+                timerCount--;
+                timerElement.textContent = timerCount;
+            }
+
     }, 1000);
+
   }
 
 function renderQuiz() {
@@ -84,38 +87,109 @@ function renderQuiz() {
     multOptions.innerHTML="";
     quizQuestions[currentQuestion].answers.forEach(function (answer){
         var answerEl = document.createElement("button");
+        answerEl.setAttribute("style", "padding:10px; margin:10px;");
         answerEl.setAttribute("value", answer);
         answerEl.textContent = answer;
         answerEl.onclick = checkAnswer;
         multOptions.appendChild(answerEl);
         
     })
-   
 }
 
 function checkAnswer () {
     console.log(this.value);
     console.log(quizQuestions[0].correctAnswer);
+
     if (this.value !== quizQuestions[currentQuestion].correctAnswer) {
         timerCount -= 5;
-        if (timerCount < 0) {
+    
+        if (timerCount <= 0) {
             timerCount = 0;
+            clearInterval(timer);
+            endQuiz();
         }
     } else {
         currentQuestion++;
-        renderQuiz();
-        console.log(currentQuestion);
+        if (currentQuestion >= quizQuestions.length){
+            clearInterval(timer);
+            endQuiz();
+            console.log("user won!");
+        } else {
+            renderQuiz();
+            console.log(currentQuestion);
+        }
     }
 }
+
  function saveHighscore(){
+    var userInitialEl = document.getElementById("msg");
+    userInitials = userInitialEl.value;
 
- }
+    // make data structure
+    var userRecord = {
+        initials: userInitials,
+        score: scoreValue,
+    }
+    var highScores = JSON.parse(localStorage.getItem("highScores"));
+    if (!highScores){
+        highScores = [userRecord];
+    }
+    else {
+        highScores.push(userRecord); 
+    }
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+    console.log(userRecord);  
+    };
+  
+ function renderHighscore (){
+    var highScores = JSON.parse(localStorage.getItem("highScores"));
+    console.log(highScores)
+    document.getElementById("endQuiz").style.display = "none";
+    var scoreUl = document.getElementById('saved-scores');
 
- function endQuiz(){
-     
- }
+    scoreUl.innerHTML = ""
+
+    for (var i=0; i < highScores.length; i++) {
+        score = highScores[i];
+        var scoreLi = document.createElement("li");
+        scoreLi.appendChild(document.createTextNode("User Name: " + score.initials + "\t Score: " + score.score));
+        scoreUl.appendChild(scoreLi);
+    }
+
+    document.getElementById("saved-scores").style.display = "block";
+    startButton.disabled = false;
+
+}
+
+
+saveButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    saveHighscore();
+    renderHighscore();
+    });
+
+
+viewHighscoresEl.addEventListener("click", renderHighscore);
+
+function endQuiz() {
+   
+    document.getElementById("questionCard").style.display = "none";
+    document.getElementById("endQuiz").style.display = "block";
+    var score = document.getElementById("score");
+    scoreValue = timerCount;
+    score.innerText = "Score: " + scoreValue;
+    clearInterval(timer);
+    console.log(score.innerText);
+
+}
+
+
   // The startQuiz function is called when the start button is clicked
 function startQuiz() {
+    currentQuestion = 0;
+    document.getElementById("questionCard").style.display = "block";
+    document.getElementById("endQuiz").style.display = "none";
+    document.getElementById("saved-scores").style.display = "none";
     // Timer for quiz
     timerCount = 60;
 
@@ -125,5 +199,8 @@ function startQuiz() {
     renderQuiz();
   }
 
+
 // Event listener added to start button to call startQuiz function on click
 startButton.addEventListener("click", startQuiz);
+startButton.setAttribute("style", "padding:10px; margin:10px; font-size:25px;");
+

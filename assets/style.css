@@ -21,10 +21,20 @@ h1 {
 
 section {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin: 5rem;
 }
 
 .options {
     margin: 1rem;
+}
+
+.input-results {
+    display: none;
+}
+
+.score-list {
+    display: none;
+    list-style: none;
 }
